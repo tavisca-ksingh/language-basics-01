@@ -4,7 +4,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 {
     class Program
     {
-        static void Main(string [] args)
+         static void Main(string [] args)
         {
             Test("42*47=1?74", 9);
             Test("4?*47=1974", 2);
@@ -22,103 +22,61 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int FindDigit(string equation)
         { 
-           var val= checkString(equation);
-            if(val == -1) return -1;
+                int result=-1;
+                //spliting the given equation 
+                string [] str = equation.Split(new char[] {'*','='});
+                string str1 =str[0];
+                string str2 =str[1];
+                string str3 = str[2];
             
-        string [] str = equation.Split(new char[] {'*','='} );
-           int num,mul=1,ind=0,result1;
-           string str1="";
-           int ind1= equation.IndexOf('?');
-           if(ind1 == -1) return -1;
-           int ind2 =equation.IndexOf('=');
-           if(ind1>ind2)
-           {
-            foreach(var c in str)
+            int tmpresult = 0;
+            if(str1.Contains('?'))
             {
-            
-            num = getValue(c);
-            if(num>0)
-            mul *= num;
-            else{
-                 str1=c;
-               ind= str1.IndexOf('?');
+                int c = int.Parse(str3);
+                int b = int.Parse(str2);
+                //checking result values are same 
+               if(c%b == 0)
+               { 
+                   tmpresult = c/b;
+                   //getting number of '?' index in string
+                   result = checkIndex(tmpresult,str1);
+                   
+               }
+        
             }
-            }
-            string s = mul.ToString();
-            if(s.Length != str1.Length)
+            else if(str2.Contains('?'))
             {
-                return -1;
-            }
-            return (s[ind]-'0');
-           }
-
-           else if(ind1 < ind2){
-                int divisor = getValue(str[2]);
-                int a = getValue(str[0]);
-                int b =getValue(str[1]);
-                if(a>0)
+                int c = int.Parse(str3);
+                int a = int.Parse(str1);
+                if(c%a == 0)
                 {
-                    if(divisor%a == 0) result1 = divisor/a;
-                    else return -1;
-                    ind= str[1].IndexOf('?');
-                    str1=str[1];
+                tmpresult = c/a;
+                result = checkIndex(tmpresult,str2);
                 }
-                else{
-                    if(divisor%b == 0) result1 = divisor/b;
-                    else return -1;
-                    ind= str[0].IndexOf('?');
-                     str1=str[0];
-                }
-            string s = result1.ToString();
-            if(s.Length != str1.Length)
-            {
-                return -1;
-            }
-            return (s[ind]-'0');
-
-           }
-
-         return -1; 
+               
+             }
+             else if(str3.Contains('?'))
+             {
+                tmpresult  = int.Parse(str1) * int.Parse(str2);
+                result = checkIndex(tmpresult,str3);
+             }
+            return result;
 
         }
-      
-        public static int getValue(string str)
-        {
-                int val=0;
-                foreach(var c in str)
-                {  
-                     if(c!='?')
-                     {
-                   int num = c - '0';
-                   val =val * 10 + num; 
-                     }
-                    else
-                       return -1;
-                }
-                
-                return val;
-        }
-        public static int checkString(string equ)
-        {
-                int count=0;
-            foreach(char c in equ)
-            {
-            
-                if((c > '0' && c <= '9') || c == '?' || c == '*' || c == '=' )
-                {
-                     if(c=='?')
+
+        public static int checkIndex(int tmpres, string str)
+        {   int res = -1;
+            //spliting the string into an array using the character as a delimiter
+            if((str.Split('?').Length - 1) > 1) return -1;
+
+            int ind = str.IndexOf('?');
+            string strRes = tmpres.ToString();
+                   if(str.Length == strRes.Length)
                     {
-                        count+=1;
-                        if(count>1) return -1;
+                        res = strRes[ind] - '0';
                     }
-                
-                }
-                else{
-                    return -1;
-                }
-            }
-            return 0;
+            return res;
         }
-   
+       
     }
 }
