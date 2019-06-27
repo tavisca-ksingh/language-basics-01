@@ -1,8 +1,8 @@
 using System;
 
-namespace fixmultipication
+namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 {
-    class FixMultipication
+    class Program
     {
         static void Main(string[] args)
         {
